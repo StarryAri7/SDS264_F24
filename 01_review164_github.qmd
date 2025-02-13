@@ -6,7 +6,11 @@ editor_options:
   chunk_output_type: console
 ---
 
+<<<<<<< HEAD
 hi !!
+=======
+hi!!
+>>>>>>> d10f42d54b0d456511317f18d422d2066522c393
 
 You can download this .qmd file from [here](https://github.com/joeroith/264_spring_2025/blob/main/01_review164.qmd).  Just hit the Download Raw File button.
 
