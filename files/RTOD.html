@@ -389,7 +389,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" class="quarto-title-block center">
+<section id="title-slide" data-background-image="sankey.png" data-background-position="2% 2%" data-background-size="15%" class="quarto-title-block center">
   <h1 class="title">R Tip of the Day</h1>
   <p class="subtitle">Sankey Plots with ggsankeyfier</p>
 
@@ -402,6 +402,10 @@ Aria Whalen
 </div>
 
 </section>
+<section class="slide level2">
+
+
+<img data-src="https://pepijn-devries.github.io/ggsankeyfier/reference/figures/logo.png" class="nostretch r-stretch quarto-figure-center" width="800"></section>
 <section id="the-goal" class="slide level2">
 <h2>The Goal</h2>
 
@@ -443,7 +447,7 @@ Aria Whalen
 <span id="cb2-4"><a href="#cb2-4"></a>ea <span class="sc">|&gt;</span></span>
 <span id="cb2-5"><a href="#cb2-5"></a><span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> Stage, <span class="at">y =</span> Dollars, <span class="at">group =</span> Node, <span class="at">fill =</span> Income,</span>
 <span id="cb2-6"><a href="#cb2-6"></a>           <span class="at">connector =</span> Connector, <span class="at">edge_id =</span> edge_id)) <span class="sc">+</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>  <span class="fu">geom_sankeyedge</span>(<span class="at">v_space =</span> <span class="st">"1"</span>, <span class="at">h_space =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>  <span class="fu">geom_sankeyedge</span>(<span class="at">v_space =</span> <span class="st">"1"</span>, <span class="at">h_space =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
 <span id="cb2-8"><a href="#cb2-8"></a>  <span class="fu">geom_sankeynode</span>(<span class="at">v_space =</span> <span class="st">"1"</span>, <span class="at">h_space =</span> <span class="dv">0</span>) <span class="sc">+</span></span>
 <span id="cb2-9"><a href="#cb2-9"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> pos, <span class="at">stat =</span> <span class="st">"sankeynode"</span>, <span class="at">fill =</span> <span class="st">"#444444"</span>) <span class="sc">+</span></span>
 <span id="cb2-10"><a href="#cb2-10"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values=</span><span class="fu">c</span>(<span class="st">"#0B9E4F"</span>, <span class="st">"#D84727"</span>)) <span class="sc">+</span> </span>
@@ -535,7 +539,7 @@ Aria Whalen
 <span id="cb6-3"><a href="#cb6-3"></a><span class="fu">ggplot</span>(diets_sankey,</span>
 <span id="cb6-4"><a href="#cb6-4"></a>       <span class="fu">aes</span>(<span class="at">x =</span> stage, <span class="at">y =</span> num_people, <span class="at">group =</span> node, <span class="at">fill =</span> food_type,</span>
 <span id="cb6-5"><a href="#cb6-5"></a>           <span class="at">connector =</span> connector, <span class="at">edge_id =</span> edge_id)) <span class="sc">+</span></span>
-<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">geom_sankeyedge</span>(<span class="at">v_space =</span> <span class="st">"auto"</span>) <span class="sc">+</span></span>
+<span id="cb6-6"><a href="#cb6-6"></a>  <span class="fu">geom_sankeyedge</span>(<span class="at">v_space =</span> <span class="st">"auto"</span>, <span class="at">color =</span> <span class="st">"gray"</span>) <span class="sc">+</span></span>
 <span id="cb6-7"><a href="#cb6-7"></a>  <span class="fu">geom_sankeynode</span>(<span class="at">v_space =</span> <span class="st">"auto"</span>) <span class="sc">+</span></span>
 <span id="cb6-8"><a href="#cb6-8"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> pos, <span class="at">stat =</span> <span class="st">"sankeynode"</span>, <span class="at">fill =</span> <span class="st">"#999999"</span>) <span class="sc">+</span></span>
 <span id="cb6-9"><a href="#cb6-9"></a>  <span class="fu">geom_label</span>(<span class="fu">aes</span>(<span class="at">label =</span> node,<span class="at">fill =</span> food_type), </span>
@@ -544,13 +548,176 @@ Aria Whalen
 <span id="cb6-12"><a href="#cb6-12"></a>              <span class="at">cex =</span> <span class="dv">5</span>, </span>
 <span id="cb6-13"><a href="#cb6-13"></a>              <span class="at">alpha =</span> .<span class="dv">7</span>) <span class="sc">+</span></span>
 <span id="cb6-14"><a href="#cb6-14"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">"#EAB63C"</span>,<span class="st">"#EF5D60"</span>, <span class="st">"#74AD81"</span>)) <span class="sc">+</span></span>
-<span id="cb6-15"><a href="#cb6-15"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">10</span>) <span class="sc">+</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">n.breaks =</span> <span class="dv">20</span>) <span class="sc">+</span></span>
 <span id="cb6-16"><a href="#cb6-16"></a>  ggthemes<span class="sc">::</span><span class="fu">theme_clean</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="the-plot-1" class="slide level2">
 <h2>The Plot</h2>
 
-<img data-src="RTOD_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"><div class="footer footer-default">
+<img data-src="RTOD_files/figure-revealjs/unnamed-chunk-6-1.png" width="960" class="r-stretch"></section>
+<section id="a-familiar-way-to-visualize-this-data" class="slide level2">
+<h2>A Familiar Way To Visualize this Data</h2>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="RTOD_files/figure-revealjs/unnamed-chunk-7-1.png" width="960"></p>
+</div>
+</div>
+<ul>
+<li>A lot to look at all at once</li>
+<li>Can’t tell scale at all</li>
+<li>“This is almost incomprehensible to me!!!” —A non-statistician</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output-display">
+<p><img data-src="RTOD_files/figure-revealjs/unnamed-chunk-8-1.png" width="960"></p>
+</div>
+</div>
+<ul>
+<li>Cleaner as a whole</li>
+<li>Less detail</li>
+<li>Again can’t tell scale</li>
+</ul>
+</div>
+</div>
+</section></section>
+<section id="fun-functions-i-discovered-during-this-project" class="title-slide slide level1 center">
+<h1>Fun functions I discovered during this project</h1>
+
+</section>
+
+<section id="janitorclean_names" class="title-slide slide level1 center">
+<h1>janitor::clean_names()</h1>
+<div class="columns">
+<div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 21 × 3
+   `Fav Food` Diet       `NUM PEOPLE`
+   &lt;chr&gt;      &lt;chr&gt;             &lt;dbl&gt;
+ 1 Potato     None                 15
+ 2 Steak      None                 75
+ 3 Chicken    None                 70
+ 4 Fish       None                 50
+ 5 Tofu       None                 10
+ 6 Cheese     None                 20
+ 7 Mushroom   None                 10
+ 8 Potato     Vegetarian           50
+ 9 Steak      Vegetarian           NA
+10 Chicken    Vegetarian           NA
+# ℹ 11 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>Hard to use data with non-syntactic names</li>
+</ul>
+</div><div class="column" style="width:50%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 21 × 3
+   fav_food diet       num_people
+   &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt;
+ 1 Potato   None               15
+ 2 Steak    None               75
+ 3 Chicken  None               70
+ 4 Fish     None               50
+ 5 Tofu     None               10
+ 6 Cheese   None               20
+ 7 Mushroom None               10
+ 8 Potato   Vegetarian         50
+ 9 Steak    Vegetarian         NA
+10 Chicken  Vegetarian         NA
+# ℹ 11 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>So much better! Look at how nice those names are!</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section id="uncount" class="title-slide slide level1 center">
+<h1>uncount()</h1>
+<div class="columns">
+<div class="column" style="width:60%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 21 × 4
+   fav_food diet       num_people food_type  
+   &lt;chr&gt;    &lt;chr&gt;           &lt;dbl&gt; &lt;chr&gt;      
+ 1 Potato   None               15 Plant/Fungi
+ 2 Steak    None               75 Meat       
+ 3 Chicken  None               70 Meat       
+ 4 Fish     None               50 Meat       
+ 5 Tofu     None               10 Plant/Fungi
+ 6 Cheese   None               20 Dairy      
+ 7 Mushroom None               10 Plant/Fungi
+ 8 Potato   Vegetarian         50 Plant/Fungi
+ 9 Steak    Vegetarian          0 Meat       
+10 Chicken  Vegetarian          0 Meat       
+# ℹ 11 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>Bad, non-syntactic names that R will not like</li>
+</ul>
+</div><div class="column" style="width:40%;">
+<div class="cell">
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 750 × 3
+   fav_food diet  food_type  
+   &lt;chr&gt;    &lt;chr&gt; &lt;chr&gt;      
+ 1 Potato   None  Plant/Fungi
+ 2 Potato   None  Plant/Fungi
+ 3 Potato   None  Plant/Fungi
+ 4 Potato   None  Plant/Fungi
+ 5 Potato   None  Plant/Fungi
+ 6 Potato   None  Plant/Fungi
+ 7 Potato   None  Plant/Fungi
+ 8 Potato   None  Plant/Fungi
+ 9 Potato   None  Plant/Fungi
+10 Potato   None  Plant/Fungi
+# ℹ 740 more rows</code></pre>
+</div>
+</div>
+<ul>
+<li>Turns bad names into clean ones for data analysis!</li>
+</ul>
+</div>
+</div>
+</section>
+
+<section>
+<section id="other-sankey-plots" class="title-slide slide level1 center">
+<h1>Other Sankey Plots</h1>
+
+</section>
+<section id="the-first-sankey-diagram" class="slide level2">
+<h2>The First Sankey Diagram</h2>
+
+<img data-src="https://datavizcatalogue.com/blog/wp-content/uploads/2021/10/Screenshot-2021-10-18-at-11.17.32.png" class="nostretch r-stretch quarto-figure-center" width="800"></section>
+<section id="similar-to-our-first-plot" class="slide level2">
+<h2>Similar to our first plot</h2>
+
+<img data-src="https://datavizcatalogue.com/blog/wp-content/uploads/2021/10/CESankey_EU27_EN.png" class="nostretch r-stretch quarto-figure-center" width="800"></section>
+<section id="woah-thats-complicated" class="slide level2">
+<h2>Woah that’s complicated</h2>
+
+<img data-src="https://datavizcatalogue.com/blog/wp-content/uploads/2021/10/alluvial2.png" class="nostretch r-stretch quarto-figure-center" width="800"></section>
+<section id="what-have-we-learned" class="slide level2">
+<h2>What have we learned?</h2>
+<div>
+<ul>
+<li class="fragment"><p>Sankey plots can be used to show flows between systems</p></li>
+<li class="fragment"><p>They can make showing medium-complex data easier, but get more confusing at a point</p></li>
+<li class="fragment"><p>The setup can be hard! They might be a little niche</p></li>
+<li class="fragment"><p>Can be used in a more artistic way than we are used to, as diagrams more than graphs</p></li>
+</ul>
+</div>
+<div class="footer footer-default">
 
 </div>
 </section></section>

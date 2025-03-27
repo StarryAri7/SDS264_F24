@@ -2,11 +2,14 @@
 title: "R Tip of the Day"
 subtitle: "Sankey Plots with ggsankeyfier"
 author: Aria Whalen
-format: revealjs
+format: 
+  revealjs
 output: html_document
 editor_options: 
   chunk_output_type: console
 ---
+
+![](https://pepijn-devries.github.io/ggsankeyfier/reference/figures/logo.png){.nostretch fig-align="center" width="800px"}
 
 
 ```{r}
@@ -14,8 +17,12 @@ library(tidyverse)
 library(ggsankeyfier)
 library(png)
 library(magick)
+library(ggmosaic)
+
 ea <- read_csv("https://raw.githubusercontent.com/StarryAri7/SDS264_F24/refs/heads/main/data/eatest.csv")
 diets <- read_csv("https://raw.githubusercontent.com/StarryAri7/SDS264_F24/refs/heads/main/data/diets.csv")
+diets2 <- read_csv("https://raw.githubusercontent.com/StarryAri7/SDS264_F24/refs/heads/main/data/diets2.csv")
+diets3 <- read_csv("~/1R_Important/data/diets.csv") |> select(-"Food Type")
 ```
 
 ```{r}
@@ -106,7 +113,7 @@ pos <- position_sankey(v_space = 1, h_space = 0)
 ea |>
 ggplot(aes(x = Stage, y = Dollars, group = Node, fill = Income,
            connector = Connector, edge_id = edge_id)) +
-  geom_sankeyedge(v_space = "1", h_space = 0) +
+  geom_sankeyedge(v_space = "1", h_space = 0, color = "gray") +
   geom_sankeynode(v_space = "1", h_space = 0) +
   geom_bar(position = pos, stat = "sankeynode", fill = "#444444") +
   scale_fill_manual(values=c("#0B9E4F", "#D84727")) + 
@@ -132,7 +139,7 @@ pos <- position_sankey(v_space = 1, h_space = 0)
 ea |>
 ggplot(aes(x = Stage, y = Dollars, group = Node, fill = Income,
            connector = Connector, edge_id = edge_id)) +
-  geom_sankeyedge(v_space = "1", h_space = 0) +
+  geom_sankeyedge(v_space = "1", h_space = 0, color = "gray") +
   geom_sankeynode(v_space = "1", h_space = 0) +
   scale_fill_manual(values=c("#0B9E4F", "#D84727")) + 
   geom_bar(position = pos, stat = "sankeynode", fill = "#444444") +
@@ -211,7 +218,7 @@ pos <- position_sankey(v_space = "auto")
 ggplot(diets_sankey,
        aes(x = stage, y = num_people, group = node, fill = food_type,
            connector = connector, edge_id = edge_id)) +
-  geom_sankeyedge(v_space = "auto") +
+  geom_sankeyedge(v_space = "auto", color = "gray") +
   geom_sankeynode(v_space = "auto") +
   geom_bar(position = pos, stat = "sankeynode", fill = "#999999") +
   geom_label(aes(label = node,fill = food_type), 
@@ -220,7 +227,7 @@ ggplot(diets_sankey,
               cex = 5, 
               alpha = .7) +
   scale_fill_manual(values = c("#EAB63C","#EF5D60", "#74AD81")) +
-  scale_y_continuous(n.breaks = 10) +
+  scale_y_continuous(n.breaks = 20) +
   ggthemes::theme_clean() 
 ```
 
@@ -232,30 +239,117 @@ pos <- position_sankey(v_space = "auto")
 ggplot(diets_sankey,
        aes(x = stage, y = num_people, group = node, fill = food_type,
            connector = connector, edge_id = edge_id)) +
-  geom_sankeyedge(v_space = "auto") +
+  geom_sankeyedge(v_space = "auto", color = "gray") +
   geom_sankeynode(v_space = "auto") +
   geom_bar(position = pos, stat = "sankeynode", fill = "#999999") +
   geom_label(aes(label = node,fill = food_type), 
               stat = "sankeynode", 
               position = pos,
-              cex = 5, 
+              cex = 3, 
               alpha = .7) +
   scale_fill_manual(values = c("#EAB63C","#EF5D60", "#74AD81")) +
-  scale_y_continuous(n.breaks = 10) +
+  scale_y_continuous(n.breaks = 20) +
   ggthemes::theme_clean() 
 ```
 
+## A Familiar Way To Visualize this Data
+
+:::: {.columns}
+::: {.column width="50%"}
 ```{r}
-library(ggmosaic)
-
-diets2 <- read_csv("~/1R_Important/data/diets2.csv")
-
-diets2 <- diets2 %>%
-    ungroup %>%
+diets4 <- diets2 |>
     uncount(num_people)
 
-ggplot(data = diets2) +
- geom_mosaic(aes(x = product(diet), fill = ))
+ggplot(data = diets4) +
+ geom_mosaic(aes(x = product(diet), fill = fav_food)) +
+    scale_fill_manual(values = c("#EAB63C",
+                                 "#EF5D60", 
+                                 "#EF5D60", 
+                                 "#74AD81", 
+                                 "#74AD81",
+                                 "#EF5D60", 
+                                 "#74AD81"))
 ```
+- A lot to look at all at once
+- Can't tell scale at all
+- "This is almost incomprehensible to me!!!" ---A non-statistician 
+:::
+
+::: {.column width="50%"}
+```{r}
+
+ggplot(data = diets4) +
+ geom_mosaic(aes(x = product(diet), fill = food_type)) +
+    scale_fill_manual(values = c("#EAB63C","#EF5D60", "#74AD81"))
+```
+- Cleaner as a whole
+- Less detail
+- Again can't tell scale
+:::
+::::
+
+# Fun functions I discovered during this project
+
+# janitor::clean_names()
+
+:::: {.columns}
+::: {.column width="50%"}
+```{r}
+diets3
+```
+- Hard to use data with non-syntactic names
+:::
+
+::: {.column width="50%"}
+```{r}
+diets3 |> janitor::clean_names()
+```
+- So much better! Look at how nice those names are!
+:::
+::::
+
+# uncount()
+
+:::: {.columns}
+
+::: {.column width="60%"}
+```{r}
+diets2
+```
+- Bad, non-syntactic names that R will not like 
+:::
+
+::: {.column width="40%"}
+```{r}
+diets2 |> uncount(num_people)
+```
+- Turns bad names into clean ones for data analysis!
+:::
+::::
+
+# Other Sankey Plots
+
+## The First Sankey Diagram
+
+![](https://datavizcatalogue.com/blog/wp-content/uploads/2021/10/Screenshot-2021-10-18-at-11.17.32.png){.nostretch fig-align="center" width="800px"}
 
 
+## Similar to our first plot
+
+![](https://datavizcatalogue.com/blog/wp-content/uploads/2021/10/CESankey_EU27_EN.png){.nostretch fig-align="center" width="800px"}
+
+## Woah that's complicated
+![](https://datavizcatalogue.com/blog/wp-content/uploads/2021/10/alluvial2.png){.nostretch fig-align="center" width="800px"}
+
+## What have we learned?
+
+::: {.incremental}
+- Sankey plots can be used to show flows between systems
+
+- They can make showing medium-complex data easier, but get more confusing at a point
+
+- The setup can be hard! They might be a little niche
+
+- Can be used in a more artistic way than we are used to, as diagrams more than graphs
+
+:::
