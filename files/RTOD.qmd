@@ -1,0 +1,261 @@
+---
+title: "R Tip of the Day"
+subtitle: "Sankey Plots with ggsankeyfier"
+author: Aria Whalen
+format: revealjs
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+
+```{r}
+library(tidyverse)
+library(ggsankeyfier)
+library(png)
+library(magick)
+ea <- read_csv("https://raw.githubusercontent.com/StarryAri7/SDS264_F24/refs/heads/main/data/eatest.csv")
+diets <- read_csv("https://raw.githubusercontent.com/StarryAri7/SDS264_F24/refs/heads/main/data/diets.csv")
+```
+
+```{r}
+# data("ecosystem_services")
+# 
+# ## first get a data set with a wide format:
+# data(ecosystem_services)
+# 
+# ?ecosystem_services
+# 
+# ecosystem_services <- ecosystem_services |> 
+#   select("activity_type", "pressure_cat",
+#                      "RCSES", )
+# 
+# 
+# 
+# ## suppose we want to decorate our Sankey
+# ## with information on the 'section' of the services:
+# ecosystem_services_p2 <-
+#   pivot_stages_longer(
+#     data        = ecosystem_services,
+#     stages_from = c("activity_type", "pressure_cat",
+#                     "biotic_group", "service_division"),
+#     values_from = "RCSES",
+#     additional_aes_from = "service_section")
+# 
+# 
+# 
+# ecosystem_services_p1 <-
+#   pivot_stages_longer(
+#     data        = ecosystem_services,
+#     stages_from = c("activity_type", "pressure_cat"),
+#     values_from = "RCSES")
+# 
+# ggplot(ecosystem_services_p1,
+#        aes(x = stage, y = RCSES, group = node,
+#            connector = connector, edge_id = edge_id)) +
+#   geom_sankeyedge(v_space = "auto") +
+#   geom_sankeynode(v_space = "auto")
+```
+
+## The Goal
+
+![](https://sherwoodnews.imgix.net/ea-sankey.png?auto=compress%2Cformat&cs=srgb&fit=max&w=3840){.nostretch fig-align="center" width="800px"}
+
+
+
+
+
+## The Dataset
+
+```{.r code-line-numbers="4-5|6-7|8-9"}
+#  A tibble: 20 × 7
+#    Dollars edge_id Connector Node                   Stage Income ...7 
+#      <dbl>   <dbl> <chr>     <chr>                  <dbl> <chr>  <lgl>
+#  1     1.3       2 from      Full game downloads        1 Income NA   
+#  2     1.3       2 to        Game Sales                 2 Income NA   
+#  3     0.7       3 from      Packaged Goods             1 Income NA   
+#  4     0.7       3 to        Game Sales                 2 Income NA   
+#  5     2         4 from      Game Sales                 2 Income NA   
+#  6     2         4 to        Total Revenue              3 Income NA   
+#  7     5.5       1 from      Live Services & Other      1 Income NA   
+#  8     5.5       1 to        Total Revenue              3 Income NA   
+#  9     1.7       5 from      Total Revenue              3 Loss   NA   
+# 10     1.7       5 to        Cost of Revenue            4 Loss   NA   
+# 11     5.9       6 from      Total Revenue              3 Income NA   
+# 12     5.9       6 to        Gross Profit               4 Income NA   
+# 13     1.5       7 from      Gross Profit               4 Income NA   
+# 14     1.5       7 to        Operating Profit           5 Income NA   
+# 15     2.4       8 from      Gross Profit               4 Loss   NA   
+# 16     2.4       8 to        Research & development     5 Loss   NA   
+# 17     0.9       9 from      Gross Profit               4 Loss   NA   
+# 18     0.9       9 to        Admin & other              5 Loss   NA   
+# 19     1        10 from      Gross Profit               4 Loss   NA   
+# 20     1        10 to        Marketing & Sales          5 Loss   NA   
+```
+
+::: footer
+Data source: EA via Chartr 
+:::
+
+## Creating a Graph
+
+```{.r code-line-numbers="2|5-6|7-8|9-17|18-19|20"}
+
+pos <- position_sankey(v_space = 1, h_space = 0)
+
+ea |>
+ggplot(aes(x = Stage, y = Dollars, group = Node, fill = Income,
+           connector = Connector, edge_id = edge_id)) +
+  geom_sankeyedge(v_space = "1", h_space = 0) +
+  geom_sankeynode(v_space = "1", h_space = 0) +
+  geom_bar(position = pos, stat = "sankeynode", fill = "#444444") +
+  scale_fill_manual(values=c("#0B9E4F", "#D84727")) + 
+  geom_label(aes(label = Node), 
+              stat = "sankeynode", 
+              position = pos,
+              cex = 3.2,
+              fill = "lightgray") +
+  ggthemes::theme_clean() +
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.ticks.x = element_line(color = "white"),
+        axis.text.x = element_text(color = "white")) +
+  xlim(.75,5.25)
+```
+
+
+## The Plot
+
+```{r}
+
+pos <- position_sankey(v_space = 1, h_space = 0)
+
+ea |>
+ggplot(aes(x = Stage, y = Dollars, group = Node, fill = Income,
+           connector = Connector, edge_id = edge_id)) +
+  geom_sankeyedge(v_space = "1", h_space = 0) +
+  geom_sankeynode(v_space = "1", h_space = 0) +
+  scale_fill_manual(values=c("#0B9E4F", "#D84727")) + 
+  geom_bar(position = pos, stat = "sankeynode", fill = "#444444") +
+  geom_label(aes(label = Node), 
+              stat = "sankeynode", 
+              position = pos,
+              cex = 3,
+              fill = "lightgray") +
+  ggthemes::theme_clean() +
+  scale_y_continuous(n.breaks = 10) +
+  theme(axis.ticks.x = element_line(color = "white"),
+        axis.text.x = element_text(color = "white")) +
+  xlim(.75,5.25)
+```
+
+# A New Plot
+
+## Creating a dataset
+
+```{r}
+print(diets,n=21)
+```
+
+::: footer
+Data source: Aria's Brain
+:::
+
+## Custom Sankey Pivot
+
+```{.r code-line-numbers="3|4|5|6"}
+diets_sankey <-
+  pivot_stages_longer(
+    data        = diets,
+    stages_from = c("fav_food", "diet"),
+    values_from = "num_people",
+    additional_aes_from = "food_type")
+
+```
+
+## The New Dataset
+
+```{r}
+diets_sankey <-
+  pivot_stages_longer(
+    data        = diets,
+    stages_from = c("fav_food", "diet"),
+    values_from = "num_people",
+    additional_aes_from = "food_type")
+```
+
+```{.r code-line-numbers="4-5|6-7"}
+# A tibble: 42 × 6
+   food_type   num_people edge_id connector node       stage   
+   <chr>            <dbl>   <int> <chr>     <fct>      <fct>   
+ 1 Plant/Fungi         15       1 from      Potato     fav_food
+ 2 Plant/Fungi         15       1 to        None       diet    
+ 3 Plant/Fungi         50       2 from      Potato     fav_food
+ 4 Plant/Fungi         50       2 to        Vegetarian diet    
+ 5 Plant/Fungi         40       3 from      Potato     fav_food
+ 6 Plant/Fungi         40       3 to        Dairy Free diet    
+ 7 Meat                75       4 from      Steak      fav_food
+ 8 Meat                75       4 to        None       diet    
+ 9 Meat                NA       5 from      Steak      fav_food
+10 Meat                NA       5 to        Vegetarian diet    
+# ℹ 32 more rows
+# ℹ Use `print(n = ...)` to see more rows
+```
+
+
+
+## The Code
+
+```{.r}
+pos <- position_sankey(v_space = "auto")
+
+ggplot(diets_sankey,
+       aes(x = stage, y = num_people, group = node, fill = food_type,
+           connector = connector, edge_id = edge_id)) +
+  geom_sankeyedge(v_space = "auto") +
+  geom_sankeynode(v_space = "auto") +
+  geom_bar(position = pos, stat = "sankeynode", fill = "#999999") +
+  geom_label(aes(label = node,fill = food_type), 
+              stat = "sankeynode", 
+              position = pos,
+              cex = 5, 
+              alpha = .7) +
+  scale_fill_manual(values = c("#EAB63C","#EF5D60", "#74AD81")) +
+  scale_y_continuous(n.breaks = 10) +
+  ggthemes::theme_clean() 
+```
+
+## The Plot
+
+```{r}
+pos <- position_sankey(v_space = "auto")
+
+ggplot(diets_sankey,
+       aes(x = stage, y = num_people, group = node, fill = food_type,
+           connector = connector, edge_id = edge_id)) +
+  geom_sankeyedge(v_space = "auto") +
+  geom_sankeynode(v_space = "auto") +
+  geom_bar(position = pos, stat = "sankeynode", fill = "#999999") +
+  geom_label(aes(label = node,fill = food_type), 
+              stat = "sankeynode", 
+              position = pos,
+              cex = 5, 
+              alpha = .7) +
+  scale_fill_manual(values = c("#EAB63C","#EF5D60", "#74AD81")) +
+  scale_y_continuous(n.breaks = 10) +
+  ggthemes::theme_clean() 
+```
+
+```{r}
+library(ggmosaic)
+
+diets2 <- read_csv("~/1R_Important/data/diets2.csv")
+
+diets2 <- diets2 %>%
+    ungroup %>%
+    uncount(num_people)
+
+ggplot(data = diets2) +
+ geom_mosaic(aes(x = product(diet), fill = ))
+```
+
+
