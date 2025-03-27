@@ -155,7 +155,12 @@ ggplot(aes(x = Stage, y = Dollars, group = Node, fill = Income,
   xlim(.75,5.25)
 ```
 
-# A New Plot
+## The Goal Again
+
+![](https://sherwoodnews.imgix.net/ea-sankey.png?auto=compress%2Cformat&cs=srgb&fit=max&w=3840){.nostretch fig-align="center" width="800px"}
+
+
+# Lets look at food!
 
 ## Creating a dataset
 
@@ -212,7 +217,7 @@ diets_sankey <-
 
 ## The Code
 
-```{.r}
+```{.r code-line-numbers="6|15"}
 pos <- position_sankey(v_space = "auto")
 
 ggplot(diets_sankey,
@@ -290,7 +295,7 @@ ggplot(data = diets4) +
 
 # Fun functions I discovered during this project
 
-# janitor::clean_names()
+## data |> janitor::clean_names()
 
 :::: {.columns}
 ::: {.column width="50%"}
@@ -308,7 +313,7 @@ diets3 |> janitor::clean_names()
 :::
 ::::
 
-# uncount()
+## data |> uncount(numeric_var)
 
 :::: {.columns}
 
@@ -316,14 +321,16 @@ diets3 |> janitor::clean_names()
 ```{r}
 diets2
 ```
-- Bad, non-syntactic names that R will not like 
+- Summarized / Collapsed, survey-like data (1 row = mulitple entries)
+  - Good for Sankey
 :::
 
 ::: {.column width="40%"}
 ```{r}
 diets2 |> uncount(num_people)
 ```
-- Turns bad names into clean ones for data analysis!
+- Looooooong true data, (1 row = 1 entry)
+  - Good for mosaic!
 :::
 ::::
 

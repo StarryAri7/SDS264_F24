@@ -389,7 +389,7 @@
   <div class="reveal">
     <div class="slides">
 
-<section id="title-slide" data-background-image="sankey.png" data-background-position="2% 2%" data-background-size="15%" class="quarto-title-block center">
+<section id="title-slide" class="quarto-title-block center">
   <h1 class="title">R Tip of the Day</h1>
   <p class="subtitle">Sankey Plots with ggsankeyfier</p>
 
@@ -466,9 +466,13 @@ Aria Whalen
 <h2>The Plot</h2>
 
 <img data-src="RTOD_files/figure-revealjs/unnamed-chunk-3-1.png" width="960" class="r-stretch"></section>
+<section id="the-goal-again" class="slide level2">
+<h2>The Goal Again</h2>
+
+<img data-src="https://sherwoodnews.imgix.net/ea-sankey.png?auto=compress%2Cformat&amp;cs=srgb&amp;fit=max&amp;w=3840" class="nostretch r-stretch quarto-figure-center" width="800"></section>
 <section>
-<section id="a-new-plot" class="title-slide slide level1 center">
-<h1>A New Plot</h1>
+<section id="lets-look-at-food" class="title-slide slide level1 center">
+<h1>Lets look at food!</h1>
 
 </section>
 <section id="creating-a-dataset" class="slide level2">
@@ -534,7 +538,7 @@ Aria Whalen
 </section>
 <section id="the-code" class="slide level2">
 <h2>The Code</h2>
-<div class="sourceCode" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>pos <span class="ot">&lt;-</span> <span class="fu">position_sankey</span>(<span class="at">v_space =</span> <span class="st">"auto"</span>)</span>
+<div class="sourceCode" id="cb6" data-code-line-numbers="6|15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a>pos <span class="ot">&lt;-</span> <span class="fu">position_sankey</span>(<span class="at">v_space =</span> <span class="st">"auto"</span>)</span>
 <span id="cb6-2"><a href="#cb6-2"></a></span>
 <span id="cb6-3"><a href="#cb6-3"></a><span class="fu">ggplot</span>(diets_sankey,</span>
 <span id="cb6-4"><a href="#cb6-4"></a>       <span class="fu">aes</span>(<span class="at">x =</span> stage, <span class="at">y =</span> num_people, <span class="at">group =</span> node, <span class="at">fill =</span> food_type,</span>
@@ -583,13 +587,13 @@ Aria Whalen
 </div>
 </div>
 </section></section>
+<section>
 <section id="fun-functions-i-discovered-during-this-project" class="title-slide slide level1 center">
 <h1>Fun functions I discovered during this project</h1>
 
 </section>
-
-<section id="janitorclean_names" class="title-slide slide level1 center">
-<h1>janitor::clean_names()</h1>
+<section id="data-janitorclean_names" class="slide level2">
+<h2>data |&gt; janitor::clean_names()</h2>
 <div class="columns">
 <div class="column" style="width:50%;">
 <div class="cell">
@@ -638,9 +642,8 @@ Aria Whalen
 </div>
 </div>
 </section>
-
-<section id="uncount" class="title-slide slide level1 center">
-<h1>uncount()</h1>
+<section id="data-uncountnumeric_var" class="slide level2">
+<h2>data |&gt; uncount(numeric_var)</h2>
 <div class="columns">
 <div class="column" style="width:60%;">
 <div class="cell">
@@ -662,7 +665,10 @@ Aria Whalen
 </div>
 </div>
 <ul>
-<li>Bad, non-syntactic names that R will not like</li>
+<li>Summarized / Collapsed, survey-like data (1 row = mulitple entries)
+<ul>
+<li>Good for Sankey</li>
+</ul></li>
 </ul>
 </div><div class="column" style="width:40%;">
 <div class="cell">
@@ -684,12 +690,14 @@ Aria Whalen
 </div>
 </div>
 <ul>
-<li>Turns bad names into clean ones for data analysis!</li>
+<li>Looooooong true data, (1 row = 1 entry)
+<ul>
+<li>Good for mosaic!</li>
+</ul></li>
 </ul>
 </div>
 </div>
-</section>
-
+</section></section>
 <section>
 <section id="other-sankey-plots" class="title-slide slide level1 center">
 <h1>Other Sankey Plots</h1>
