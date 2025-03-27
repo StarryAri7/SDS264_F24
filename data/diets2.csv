@@ -1,0 +1,22 @@
+fav_food,diet,num_people,food_type
+Potato,None,15,Plant/Fungi
+Steak,None,75,Meat
+Chicken,None,70,Meat
+Fish,None,50,Meat
+Tofu,None,10,Plant/Fungi
+Cheese,None,20,Dairy
+Mushroom,None,10,Plant/Fungi
+Potato,Vegetarian,50,Plant/Fungi
+Steak,Vegetarian,0,Meat
+Chicken,Vegetarian,0,Meat
+Fish,Vegetarian,0,Meat
+Tofu,Vegetarian,75,Plant/Fungi
+Cheese,Vegetarian,50,Dairy
+Mushroom,Vegetarian,75,Plant/Fungi
+Potato,Dairy Free,40,Plant/Fungi
+Steak,Dairy Free,50,Meat
+Chicken,Dairy Free,50,Meat
+Fish,Dairy Free,40,Meat
+Tofu,Dairy Free,40,Plant/Fungi
+Cheese,Dairy Free,0,Dairy
+Mushroom,Dairy Free,30,Plant/Fungi
